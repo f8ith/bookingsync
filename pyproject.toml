@@ -1,0 +1,26 @@
+[tool.poetry]
+name = "simplysync"
+version = "0.1.0"
+description = "API that consumes the Simplybook callback and automatically syncs with a google sheet"
+authors = ["faith <jamienibtong@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+Django = "^3.2.9"
+djangorestframework = "^3.12.4"
+djangorestframework-simplejwt = "^5.0.0"
+google-api-python-client = "^2.32.0"
+google-auth-httplib2 = "^0.1.0"
+google-auth-oauthlib = "^0.4.6"
+PyDrive2 = "^1.10.0"
+gspread = "^5.0.0"
+
+[tool.poetry.dev-dependencies]
+
+[tool.pyright]
+venvPath = "./"
+venv = ".venv"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
