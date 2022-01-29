@@ -1,0 +1,23 @@
+{
+  "ts-node": {
+    "transpileOnly": true,
+    "no-notify": true,
+    "respawn": true
+  },
+  "compilerOptions": {
+    "module": "esnext",
+    "moduleResolution": "node",
+    "target": "es2020",
+    "outDir": "dist",
+    "rootDir": "src",
+    "lib": [
+      "esnext"
+    ],
+    "strict": true,
+    "strictPropertyInitialization": false,
+    "esModuleInterop": true
+  },
+  "include": [
+    "src/**/*"
+  ]
+}

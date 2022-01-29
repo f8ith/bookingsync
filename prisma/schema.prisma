@@ -1,0 +1,50 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+generator typegraphql { 
+  provider = "typegraphql-prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model User {
+  id    Int     @id @default(autoincrement())
+  email String  @unique
+  name  String
+}
+
+model Client {
+  id    Int     @id 
+  email String  @unique
+  name  String
+  phone String
+  bookings Booking[]
+}
+
+model Booking {
+  id        Int      @id
+  code      String 
+  startDatetime DateTime
+  endDatetime  DateTime
+  duration  Int
+  service   Service @relation(fields: [serviceId], references: [id])
+  serviceId Int
+  client  Client @relation(fields: [clientId], references: [id])
+  clientId Int
+}
+
+
+model Service {
+  id        Int      @id
+  name      String 
+  price     Float
+  currency  String
+  isActive Boolean
+  isVisible Boolean
+  duration  Int
+  bookings  Booking[]
+}
