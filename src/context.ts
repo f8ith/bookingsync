@@ -1,11 +1,9 @@
-import PrismaClientPkg from "@prisma/client";
-const PrismaClient = PrismaClientPkg.PrismaClient;
+import prisma from "./prisma.js"
+import type { PrismaClient } from "@prisma/client";
 
 export interface Context {
-  prisma: InstanceType<typeof PrismaClient>
+  prisma: PrismaClient
 }
-
-const prisma = new PrismaClient()
 
 export const context: Context = {
   prisma: prisma,

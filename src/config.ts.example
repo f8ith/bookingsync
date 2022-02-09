@@ -1,0 +1,9 @@
+let config = {
+  company: "",
+  login: "",
+  password: "",
+  baseUrl: "https://user-api-v2.simplybook.me",
+  secret: "lol"
+}
+
+export default config

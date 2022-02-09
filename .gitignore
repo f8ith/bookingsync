@@ -129,3 +129,4 @@ dist
 .yarn/intall-state.gz
 .pnp.*
 credentials.json
+src/config.ts
