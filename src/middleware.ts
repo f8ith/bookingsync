@@ -2,9 +2,8 @@ import type { Request, Response, NextFunction } from 'express';
 import prisma from "./prisma.js";
 import { APIClient } from './simplybook.js';
 import { checkCapacity } from './notification.js';
+import { OAuth2Client } from 'google-auth-library'
 import jwt from 'jsonwebtoken'
-import config from './config.js'
-import bcrypt from 'bcrypt'
 
 
 export const jwtAuth = (req: Request, res: Response, next: NextFunction) => {
@@ -24,7 +23,7 @@ export const handleCallback = async (req: Request, res: Response) => {
     update: {},
     create: (await sb.getService(bookingEntity.service_id))
   })
-  await prisma.client.upsert({
+  await prisma.user.upsert({
     where: { id: bookingEntity.client_id },
     update: {},
     create: (await sb.getClient(bookingEntity.client_id))
@@ -68,24 +67,29 @@ export const handleCallback = async (req: Request, res: Response) => {
 
 }
 
-export const generateToken = async (req: Request, resp: Response) => {
-  const data = req.body
-  if (!data.email || !data.password) return resp.sendStatus(400)
-  const user = await prisma.user.findUnique({
+export const googleOAuth2 = async (req: Request, resp: Response) => {
+  const { token } = req.body
+  const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID)
+  const ticket = await client.verifyIdToken({
+    idToken: token,
+    audience: process.env.GOOGLE_CLIENT_ID
+  });
+  const profile = ticket.getPayload();
+  if (!profile) return resp.status(400)
+  const user = await prisma.user.upsert({
     where: {
-      email: data.email
+      gId: profile.sub
+    },
+    update: {
+      name: profile.name!,
+      email: profile.email!
+    },
+    create: {
+      name: profile.name!,
+      email: profile.email!,
+      gId: profile.sub!,
     }
   })
-  if (user) {
-    bcrypt.compare(data.password, user.password, (err: any, result: any) => {
-      if (err) throw err
-      if (result) {
-        resp.send(jwt.sign({ name: user.name }, config.secret, { expiresIn: "1 year" }))
-      } else {
-        resp.sendStatus(401)
-      }
-    })
-  } else {
-    resp.sendStatus(401)
-  }
+  if (!user.phone) resp.status(201); else resp.status(200)
+  resp.json({token: jwt.sign(user, process.env.secret!, { expiresIn: "1 year" })})
 }

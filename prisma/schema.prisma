@@ -2,53 +2,53 @@ generator client {
   provider = "prisma-client-js"
 }
 
-generator typegraphql { 
+generator typegraphql {
   provider = "typegraphql-prisma"
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = "file:./dev.db"
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model User {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String
-  password String
-  notify Boolean  @default(false)
+  id       Int       @id @default(autoincrement())
+  gId      String?   @unique
+  email    String?
+  name     String
+  notify   Boolean   @default(false)
   tChatId  Int?
-}
-
-model Client {
-  id    Int     @id 
-  email String  @unique
-  name  String
-  phone String
+  phone    String?
+  address  String?
   bookings Booking[]
+  role     Role      @default(client)
 }
 
 model Booking {
-  id        Int      @id
-  code      Int
+  id             Int      @id
+  code           Int
   start_datetime DateTime
-  end_datetime  DateTime
-  duration  Int
-  service   Service @relation(fields: [service_id], references: [id])
-  service_id Int
-  client  Client @relation(fields: [client_id], references: [id])
-  client_id Int
+  end_datetime   DateTime
+  duration       Int
+  service        Service  @relation(fields: [service_id], references: [id])
+  service_id     Int
+  client         User     @relation(fields: [client_id], references: [id])
+  client_id      Int
 }
 
-
 model Service {
-  id        Int      @id
-  name      String 
-  price     Float
-  currency  String
-  is_active Boolean
+  id         Int       @id
+  name       String
+  price      Float
+  currency   String
+  is_active  Boolean
   is_visible Boolean
-  duration  Int
-  bookings  Booking[]
-  capacity  Int @default(10)
+  duration   Int
+  bookings   Booking[]
+  capacity   Int       @default(10)
+}
+
+enum Role {
+  client
+  admin
 }

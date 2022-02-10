@@ -1,5 +1,6 @@
 //import fs from 'fs';
-import config from './config.js';
+import dotenv from 'dotenv'
+dotenv.config()
 const got = (await import('got')).default
 import type { SearchParameters } from 'got'
 
@@ -14,7 +15,7 @@ export class APIClient {
   private instance: typeof got;
 
   constructor() {
-    this.baseUrl = config.baseUrl
+    this.baseUrl = process.env.baseUrl!
   }
 
   async initialize() {
@@ -66,11 +67,11 @@ export class APIClient {
 
   async auth() {
     //    if (fs.existsSync('./credentials.json')) return JSON.parse(fs.readFileSync('./credentials.json').toString());
-    const credentials = await got.post(config.baseUrl + '/admin/auth', {
+    const credentials = await got.post(process.env.baseUrl + '/admin/auth', {
       json: {
-        "company": config.company,
-        "login": config.login,
-        "password": config.password
+        "company": process.env.company,
+        "login": process.env.login,
+        "password": process.env.password
       }
     }).text();
     //    fs.writeFileSync('./credentials.json', credentials)
@@ -79,7 +80,7 @@ export class APIClient {
 
   async refreshToken(credentials: any) {
     await this.post('admin/auth/refresh-token', {
-      "company": config.company,
+      "company": process.env.company!,
       "refresh_token": credentials.refresh_token,
     })
   }
