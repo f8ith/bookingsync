@@ -1,10 +1,8 @@
 {
   "name": "simplysync-core",
-  "type": "module",
   "license": "MIT",
   "scripts": {
-    "tsn": "node --loader ts-node/esm",
-    "dev": "node --loader ts-node/esm src/server.ts",
+    "dev": "ts-node-dev --no-notify --respawn --transpile-only src/server",
     "start": "node dist/server",
     "clean": "rm -rf dist",
     "build": "pnpm -s run clean && pnpm -s run generate && tsc",
@@ -28,7 +26,6 @@
     "express-graphql": "0.12.0",
     "express-jwt": "^6.1.0",
     "google-auth-library": "^7.12.0",
-    "got": "^12.0.1",
     "graphql": "15.8.0",
     "graphql-fields": "^2.0.3",
     "graphql-scalars": "1.14.1",
@@ -56,6 +53,6 @@
     "typescript": "4.5.5"
   },
   "prisma": {
-    "seed": "node --loader ts-node/esm prisma/seed.ts"
+    "seed": "ts-node prisma/seed.ts"
   }
 }

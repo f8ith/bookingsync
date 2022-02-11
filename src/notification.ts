@@ -1,4 +1,4 @@
-import prisma from "./prisma.js";
+import prisma from "./prisma";
 import TelegramBot from 'node-telegram-bot-api'
 import dotenv from "dotenv"
 dotenv.config()

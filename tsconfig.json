@@ -1,11 +1,5 @@
 {
-  "ts-node": {
-    "transpileOnly": true,
-    "no-notify": true,
-    "respawn": true
-  },
   "compilerOptions": {
-    "module": "esnext",
     "moduleResolution": "node",
     "target": "es2020",
     "outDir": "dist",
@@ -15,7 +9,8 @@
     ],
     "strict": true,
     "strictPropertyInitialization": false,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
   },
   "include": [
     "src/**/*"
