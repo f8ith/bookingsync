@@ -22,7 +22,9 @@ specifiers:
   google-auth-library: ^7.12.0
   graphql: 15.8.0
   graphql-fields: ^2.0.3
+  graphql-middleware: ^6.1.13
   graphql-scalars: 1.14.1
+  graphql-shield: ^7.5.0
   graphql-type-json: ^0.3.2
   jayson: ^3.6.6
   jsonwebtoken: ^8.5.1
@@ -50,7 +52,9 @@ dependencies:
   google-auth-library: 7.12.0
   graphql: 15.8.0
   graphql-fields: 2.0.3
+  graphql-middleware: 6.1.13_graphql@15.8.0
   graphql-scalars: 1.14.1_graphql@15.8.0
+  graphql-shield: 7.5.0_81117540a8e1319ef9d03207101ad239
   graphql-type-json: 0.3.2_graphql@15.8.0
   jayson: 3.6.6
   jsonwebtoken: 8.5.1
@@ -97,6 +101,13 @@ packages:
       js-tokens: 4.0.0
     dev: true
 
+  /@babel/runtime/7.17.2:
+    resolution: {integrity: sha512-hzeyJyMA1YGdJTuWU0e/j4wKXrU4OMFvY2MSlaI9B7VQb0r5cxTE3EAIS2Q7Tn2RIcDkRvTA/v2JsAEhxe99uw==}
+    engines: {node: '>=6.9.0'}
+    dependencies:
+      regenerator-runtime: 0.13.9
+    dev: false
+
   /@cspotcode/source-map-consumer/0.8.0:
     resolution: {integrity: sha512-41qniHzTU8yAGbCp04ohlmSrZf8bkf/iJsl3V0dRGsQN/5GFfx+LbCSsCpp2gqrqjTVg/K6O8ycoV35JIwAzAg==}
     engines: {node: '>= 12'}
@@ -108,6 +119,63 @@ packages:
     dependencies:
       '@cspotcode/source-map-consumer': 0.8.0
     dev: true
+
+  /@graphql-tools/batch-execute/8.3.1_graphql@15.8.0:
+    resolution: {integrity: sha512-63kHY8ZdoO5FoeDXYHnAak1R3ysMViMPwWC2XUblFckuVLMUPmB2ONje8rjr2CvzWBHAW8c1Zsex+U3xhKtGIA==}
+    peerDependencies:
+      graphql: ^14.0.0 || ^15.0.0 || ^16.0.0
+    dependencies:
+      '@graphql-tools/utils': 8.6.1_graphql@15.8.0
+      dataloader: 2.0.0
+      graphql: 15.8.0
+      tslib: 2.3.1
+      value-or-promise: 1.0.11
+    dev: false
+
+  /@graphql-tools/delegate/8.4.3_graphql@15.8.0:
+    resolution: {integrity: sha512-hKTJdJXJnKL0+2vpU+Kt7OHQTIXZ9mBmNBwHsYiG5WNArz/vNI7910r6TC2XMf/e7zhyyK+mXxMDBmDQkkJagA==}
+    peerDependencies:
+      graphql: ^14.0.0 || ^15.0.0 || ^16.0.0
+    dependencies:
+      '@graphql-tools/batch-execute': 8.3.1_graphql@15.8.0
+      '@graphql-tools/schema': 8.3.1_graphql@15.8.0
+      '@graphql-tools/utils': 8.6.1_graphql@15.8.0
+      dataloader: 2.0.0
+      graphql: 15.8.0
+      tslib: 2.3.1
+      value-or-promise: 1.0.11
+    dev: false
+
+  /@graphql-tools/merge/8.2.2_graphql@15.8.0:
+    resolution: {integrity: sha512-2DyqhIOMUMKbCPqo8p6xSdll2OBcBxGdOrxlJJlFQvinsSaYqp/ct3dhAxNtzaIcvSVgXvttQqfD7O2ziFtE7Q==}
+    peerDependencies:
+      graphql: ^14.0.0 || ^15.0.0 || ^16.0.0
+    dependencies:
+      '@graphql-tools/utils': 8.6.1_graphql@15.8.0
+      graphql: 15.8.0
+      tslib: 2.3.1
+    dev: false
+
+  /@graphql-tools/schema/8.3.1_graphql@15.8.0:
+    resolution: {integrity: sha512-3R0AJFe715p4GwF067G5i0KCr/XIdvSfDLvTLEiTDQ8V/hwbOHEKHKWlEBHGRQwkG5lwFQlW1aOn7VnlPERnWQ==}
+    peerDependencies:
+      graphql: ^14.0.0 || ^15.0.0 || ^16.0.0
+    dependencies:
+      '@graphql-tools/merge': 8.2.2_graphql@15.8.0
+      '@graphql-tools/utils': 8.6.1_graphql@15.8.0
+      graphql: 15.8.0
+      tslib: 2.3.1
+      value-or-promise: 1.0.11
+    dev: false
+
+  /@graphql-tools/utils/8.6.1_graphql@15.8.0:
+    resolution: {integrity: sha512-uxcfHCocp4ENoIiovPxUWZEHOnbXqj3ekWc0rm7fUhW93a1xheARNHcNKhwMTR+UKXVJbTFQdGI1Rl5XdyvDBg==}
+    peerDependencies:
+      graphql: ^14.0.0 || ^15.0.0 || ^16.0.0
+    dependencies:
+      graphql: 15.8.0
+      tslib: 2.3.1
+    dev: false
 
   /@mapbox/node-pre-gyp/1.0.8:
     resolution: {integrity: sha512-CMGKi28CF+qlbXh26hDe6NxCd7amqeAzEqnS6IHeO6LoaKyM/n+Xw3HT1COdq8cuioOdlKdqn/hCmqPUOMOywg==}
@@ -525,6 +593,10 @@ packages:
     resolution: {integrity: sha512-JQbbmxZTZehdc2iszGKs5oC3NFnjeay7mtAWrdt7qNtAVK0g19muApzAy4bm9byz79xa2ZnO/BOBC2R8RC5Lww==}
     dependencies:
       '@types/node': 16.11.21
+    dev: false
+
+  /@types/yup/0.29.11:
+    resolution: {integrity: sha512-9cwk3c87qQKZrT251EDoibiYRILjCmxBvvcb4meofCmx1vdnNcR9gyildy5vOHASpOKMsn42CugxUvcwK5eu1g==}
     dev: false
 
   /JSONStream/1.3.5:
@@ -1065,6 +1137,10 @@ packages:
     engines: {node: '>=0.10'}
     dependencies:
       assert-plus: 1.0.0
+    dev: false
+
+  /dataloader/2.0.0:
+    resolution: {integrity: sha512-YzhyDAwA4TaQIhM5go+vCLmU0UikghC/t9DTQYZR2M/UvZ1MdOhPezSDZcjj9uqQJOMqjLcpWtyW2iNINdlatQ==}
     dev: false
 
   /debug/2.6.9:
@@ -1658,6 +1734,16 @@ packages:
     resolution: {integrity: sha512-x3VE5lUcR4XCOxPIqaO4CE+bTK8u6gVouOdpQX9+EKHr+scqtK5Pp/l8nIGqIpN1TUlkKE6jDCCycm/WtLRAwA==}
     dev: false
 
+  /graphql-middleware/6.1.13_graphql@15.8.0:
+    resolution: {integrity: sha512-P2LDzGvcA+QgTxtqo1pFIlJ4KtHDbQkwMlh9nLYlfAByXPi9gLx0IZ8D2ZMD+LRjy6aQJUxmEBdoRCI1MxxeaA==}
+    peerDependencies:
+      graphql: ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0
+    dependencies:
+      '@graphql-tools/delegate': 8.4.3_graphql@15.8.0
+      '@graphql-tools/schema': 8.3.1_graphql@15.8.0
+      graphql: 15.8.0
+    dev: false
+
   /graphql-query-complexity/0.7.2_graphql@15.8.0:
     resolution: {integrity: sha512-+VgmrfxGEjHI3zuojWOR8bsz7Ycz/BZjNjxnlUieTz5DsB92WoIrYCSZdWG7UWZ3rfcA1Gb2Nf+wB80GsaZWuQ==}
     peerDependencies:
@@ -1675,6 +1761,19 @@ packages:
     dependencies:
       graphql: 15.8.0
       tslib: 2.3.1
+    dev: false
+
+  /graphql-shield/7.5.0_81117540a8e1319ef9d03207101ad239:
+    resolution: {integrity: sha512-T1A6OreOe/dHDk/1Qg3AHCrKLmTkDJ3fPFGYpSOmUbYXyDnjubK4J5ab5FjHdKHK5fWQRZNTvA0SrBObYsyfaw==}
+    peerDependencies:
+      graphql: ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0
+      graphql-middleware: ^2.0.0 || ^3.0.0 || ^4.0.0 || ^6.0.0
+    dependencies:
+      '@types/yup': 0.29.11
+      graphql: 15.8.0
+      graphql-middleware: 6.1.13_graphql@15.8.0
+      object-hash: 2.2.0
+      yup: 0.31.1
     dev: false
 
   /graphql-subscriptions/1.2.1_graphql@15.8.0:
@@ -2183,6 +2282,10 @@ packages:
       p-locate: 5.0.0
     dev: true
 
+  /lodash-es/4.17.21:
+    resolution: {integrity: sha512-mKnC+QJ9pWVzv+C4/U3rRsHapFfHvQFoFB92e52xeyGMcX6/OlIl78je1u8vePzYZSkkogMPJ2yjxxsb89cxyw==}
+    dev: false
+
   /lodash.defaults/4.2.0:
     resolution: {integrity: sha1-0JF4cW/+pN3p5ft7N/bwgCJ0WAw=}
     dev: true
@@ -2442,6 +2545,11 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: false
 
+  /object-hash/2.2.0:
+    resolution: {integrity: sha512-gScRMn0bS5fH+IuwyIFgnh9zBdo4DV+6GhygmWM9HyNJSgS0hScp1f5vjtm7oIIOiT9trXrShAkLFSc2IqKNgw==}
+    engines: {node: '>= 6'}
+    dev: false
+
   /object-inspect/1.12.0:
     resolution: {integrity: sha512-Ho2z80bVIvJloH+YzRmpZVQe87+qASmBUKZDWgx9cu+KDrX2ZDH/3tMy+gXbZETVGs2M8YdxObOh7XAtim9Y0g==}
     dev: false
@@ -2634,6 +2742,10 @@ packages:
     engines: {node: '>=0.4.0'}
     dev: true
 
+  /property-expr/2.0.5:
+    resolution: {integrity: sha512-IJUkICM5dP5znhCckHSv30Q4b5/JA5enCtkRHYaOVOAocnH/1BQEYTC5NMfT3AVl/iXKdr3aqQbQn9DxyWknwA==}
+    dev: false
+
   /proxy-addr/2.0.7:
     resolution: {integrity: sha512-llQsMLSUDUPT44jdrU/O37qlnifitDP+ZwrmmZcoSKyLKvtZxpyV0n2/bD/N4tBAAZ/gJEdZU7KMraoK1+XYAg==}
     engines: {node: '>= 0.10'}
@@ -2740,6 +2852,10 @@ packages:
 
   /reflect-metadata/0.1.13:
     resolution: {integrity: sha512-Ts1Y/anZELhSsjMcU605fU9RE4Oi3p5ORujwbIKXfWa+0Zxs510Qrmrce5/Jowq3cHSZSJqBjypxmHarc+vEWg==}
+    dev: false
+
+  /regenerator-runtime/0.13.9:
+    resolution: {integrity: sha512-p3VT+cOEgxFsRRA9X4lkI1E+k2/CtnKtU4gcxyaCUreilL/vqI6CdZ3wxVUx3UOUg+gnUOQQcRI7BmSI656MYA==}
     dev: false
 
   /replace-string/3.1.0:
@@ -3185,6 +3301,10 @@ packages:
     engines: {node: '>=0.6'}
     dev: false
 
+  /toposort/2.0.2:
+    resolution: {integrity: sha1-riF2gXXRVZ1IvvNUILL0li8JwzA=}
+    dev: false
+
   /tough-cookie/2.5.0:
     resolution: {integrity: sha512-nlLsUzgm1kfLXSXfRZMc1KLAugd4hqJHDTvc2hDIwS3mZAfMEuMbc03SujMF+GEcpaX/qboeycw6iO8JwVv2+g==}
     engines: {node: '>=0.8'}
@@ -3444,6 +3564,11 @@ packages:
     engines: {node: '>= 0.10'}
     dev: false
 
+  /value-or-promise/1.0.11:
+    resolution: {integrity: sha512-41BrgH+dIbCFXClcSapVs5M6GkENd3gQOJpEfPDNa71LsUGMXDL0jMWpI/Rh7WhX+Aalfz2TTS3Zt5pUsbnhLg==}
+    engines: {node: '>=12'}
+    dev: false
+
   /vary/1.1.2:
     resolution: {integrity: sha1-IpnwLG3tMNSllhsLn3RSShj2NPw=}
     engines: {node: '>= 0.8'}
@@ -3524,6 +3649,17 @@ packages:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
     dev: true
+
+  /yup/0.31.1:
+    resolution: {integrity: sha512-Lf6648jDYOWR75IlWkVfwesPyW6oj+50NpxlKvsQlpPsB8eI+ndI7b4S1VrwbmeV9hIZDu1MzrlIL4W+gK1jPw==}
+    engines: {node: '>=10'}
+    dependencies:
+      '@babel/runtime': 7.17.2
+      lodash: 4.17.21
+      lodash-es: 4.17.21
+      property-expr: 2.0.5
+      toposort: 2.0.2
+    dev: false
 
   /zip-stream/4.1.0:
     resolution: {integrity: sha512-zshzwQW7gG7hjpBlgeQP9RuyPGNxvJdzR8SUM3QhxCnLjWN2E7j3dOvpeDcQoETfHx0urRS7EtmVToql7YpU4A==}

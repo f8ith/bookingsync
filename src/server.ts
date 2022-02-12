@@ -1,17 +1,17 @@
 import 'reflect-metadata'
-import express from 'express'
+import express, { Request } from 'express'
 import cors from 'cors'
 import { graphqlHTTP } from 'express-graphql'
-import * as tq from 'type-graphql'
-import { resolvers } from '@generated/type-graphql'
-import { context } from './context'
+import { createContext } from './context'
 import { jwtAuth, googleOAuth2 } from './middleware'
 import expressJwt from 'express-jwt'
 import dotenv from 'dotenv'
+import buildSchema from './schema'
 
 const main = async () => {
   dotenv.config()
   const app = express()
+  const schema = await buildSchema()
 
   app.use(cors({ origin: process.env.corsOrigin }))
   app.post('/auth/google', express.json(), googleOAuth2)
@@ -19,13 +19,12 @@ const main = async () => {
   app.use(
     '/graphql',
     expressJwt({ secret: process.env.secret!, algorithms: ['HS256'] }),
-    jwtAuth,
-    graphqlHTTP({
-      schema: await tq.buildSchema({
-        resolvers,
-      }),
-      context: context,
-      graphiql: true,
+    graphqlHTTP((req) => {
+      return {
+        schema: schema,
+        context: createContext(req),
+        graphiql: true,
+      }
     }),
   )
 
