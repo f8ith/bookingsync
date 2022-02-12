@@ -2,53 +2,91 @@ generator client {
   provider = "prisma-client-js"
 }
 
-generator typegraphql { 
+generator typegraphql {
   provider = "typegraphql-prisma"
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = "file:./dev.db"
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model User {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String
-  password String
-  notify Boolean  @default(false)
+  id       Int       @id @default(autoincrement())
+  gId      String?   @unique
+  email    String?
+  name     String
+  notify   Boolean   @default(false)
   tChatId  Int?
-}
-
-model Client {
-  id    Int     @id 
-  email String  @unique
-  name  String
-  phone String
+  phone    String?
+  address  String?
   bookings Booking[]
+  role     Role      @default(client)
+  quota    Quota[]
 }
 
 model Booking {
-  id        Int      @id
+  id        Int     @id @default(autoincrement())
   code      Int
-  start_datetime DateTime
-  end_datetime  DateTime
-  duration  Int
-  service   Service @relation(fields: [service_id], references: [id])
-  service_id Int
-  client  Client @relation(fields: [client_id], references: [id])
-  client_id Int
+  service   Service @relation(fields: [serviceId], references: [id])
+  user      User    @relation(fields: [userId], references: [id])
+  serviceId Int
+  userId    Int
+
+  @@unique([serviceId, userId])
 }
 
+model ServiceType {
+  id          Int        @id @default(autoincrement())
+  name        String     @unique
+  price       Float
+  currency    String
+  isActive    Boolean
+  isVisible   Boolean
+  duration    Int
+  capacity    Int        @default(10)
+  Service     Service[]
+  quotaType   QuotaType? @relation(fields: [quotaTypeId], references: [id])
+  quotaTypeId Int?
+}
 
 model Service {
-  id        Int      @id
-  name      String 
-  price     Float
-  currency  String
-  is_active Boolean
-  is_visible Boolean
-  duration  Int
-  bookings  Booking[]
-  capacity  Int @default(10)
+  id            Int         @id @default(autoincrement())
+  serviceType   ServiceType @relation(fields: [serviceTypeId], references: [id])
+  serviceTypeId Int
+  startDatetime DateTime
+  endDatetime   DateTime
+  duration      Int
+  bookings      Booking[]
+
+  quotaType   QuotaType? @relation(fields: [quotaTypeId], references: [id])
+  quotaTypeId Int?
+  @@unique([serviceTypeId, startDatetime])
+}
+
+model Package {
+  id     Int         @id @default(autoincrement())
+  quotas QuotaType[]
+}
+
+model QuotaType {
+  id           Int           @id @default(autoincrement())
+  package      Package?      @relation(fields: [packageId], references: [id])
+  packageId    Int?
+  serviceTypes ServiceType[]
+  services     Service[]
+  quota        Quota[]
+}
+
+model Quota {
+  id          Int       @id @default(autoincrement())
+  quotaType   QuotaType @relation(fields: [quotaTypeId], references: [id])
+  quotaTypeId Int
+  user        User      @relation(fields: [userId], references: [id])
+  userId      Int
+}
+
+enum Role {
+  client
+  admin
 }

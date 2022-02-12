@@ -1,17 +1,27 @@
-import PrismaClientPkg from "@prisma/client";
-import config from '../src/config.js'
-
-const PrismaClient = PrismaClientPkg.PrismaClient;
+import { PrismaClient, Role } from "@prisma/client";
+import * as data from './data.json'
 
 const prisma = new PrismaClient()
 
+const role: Role = "admin"
+
 async function main() {
-  console.log(`Start seeding ...`)
-  for (const u of config.userData) {
-    const user = await prisma.user.create({
-      data: u,
+  console.log(`Start seeding admins...`)
+  for (const u of data.admins) {
+    const user = await prisma.user.upsert({
+      where: {
+        gId: u.gId
+      },
+      update: {
+        ...u,
+        role: role
+      },
+      create: {
+        ...u,
+        role: role
+      }  
     })
-    console.log(`Created user with id: ${user.id}`)
+    console.log(`Created admin with id: ${user.id}`)
   }
   console.log(`Seeding finished.`)
 }

@@ -1,10 +1,14 @@
-import prisma from "./prisma.js"
-import type { PrismaClient } from "@prisma/client";
+import prisma from './prisma'
+import type { PrismaClient, User } from '@prisma/client'
 
-export interface Context {
+export interface createContext {
   prisma: PrismaClient
+  user: User
 }
 
-export const context: Context = {
-  prisma: prisma,
+export const createContext = (req: any) => {
+  return {
+    prisma: prisma,
+    user: req.user,
+  }
 }

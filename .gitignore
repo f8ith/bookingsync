@@ -130,3 +130,4 @@ dist
 .pnp.*
 credentials.json
 src/config.ts
+prisma/AdminData.ts

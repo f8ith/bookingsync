@@ -1,34 +1,37 @@
 import 'reflect-metadata'
-import express from 'express'
+import express, { Request } from 'express'
 import cors from 'cors'
 import { graphqlHTTP } from 'express-graphql'
-import * as tq from 'type-graphql'
-import { resolvers } from '@generated/type-graphql'
-import { context } from './context.js'
-import { handleCallback, jwtAuth, generateToken } from './middleware.js'
+import { createContext } from './context'
+import { jwtAuth, googleOAuth2 } from './middleware'
 import expressJwt from 'express-jwt'
-import config from './config.js'
+import dotenv from 'dotenv'
+import buildSchema from './schema'
 
-const app = express()
+const main = async () => {
+  dotenv.config()
+  const app = express()
+  const schema = await buildSchema()
 
-app.use(cors({ origin: config.corsOrigin, credentials: true }))
-app.post('/simplybook', express.json(), handleCallback)
-app.post('/gettoken', express.json(), generateToken)
+  app.use(cors({ origin: process.env.corsOrigin }))
+  app.post('/auth/google', express.json(), googleOAuth2)
 
-app.use(
-  '/graphql',
-  expressJwt({ secret: config.secret, algorithms: ['HS256'] }),
-  jwtAuth,
-  graphqlHTTP({
-    schema: await tq.buildSchema({
-      resolvers,
+  app.use(
+    '/graphql',
+    expressJwt({ secret: process.env.secret!, algorithms: ['HS256'] }),
+    graphqlHTTP((req) => {
+      return {
+        schema: schema,
+        context: createContext(req),
+        graphiql: true,
+      }
     }),
-    context: context,
-    graphiql: true,
-  }),
-)
+  )
 
-app.listen(4000)
-console.log(`\
+  app.listen(4000)
+  console.log(`\
 🚀 Server ready at: http://localhost:4000
 `)
+}
+
+main().catch(console.error)
